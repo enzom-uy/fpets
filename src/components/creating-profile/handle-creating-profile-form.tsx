@@ -9,19 +9,27 @@ interface FormData {
 }
 
 type ActiveStep = "choosing" | "businessGeneralInfo" | "personGeneralInfo";
+const STORAGE_KEY = "creating-profile-form";
 
 export const HandleCreatingProfileForm: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    isBusiness: false,
-  });
-
   const getStepFromURL = (): ActiveStep => {
     if (typeof window === "undefined") return "choosing";
     const params = new URLSearchParams(window.location.search);
     return (params.get("step") as ActiveStep) || "choosing";
   };
 
+  const getStoredFormData = (): FormData => {
+    if (typeof window === "undefined") return { isBusiness: false };
+    const stored = sessionStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : { isBusiness: false };
+  };
+
+  const [formData, setFormData] = useState<FormData>(getStoredFormData);
   const [activeStep, setActiveStep] = useState<ActiveStep>(getStepFromURL);
+
+  useEffect(() => {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -29,7 +37,14 @@ export const HandleCreatingProfileForm: React.FC = () => {
     };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
-  });
+  }, []);
+
+  const navigateToStep = (step: ActiveStep) => {
+    setActiveStep(step);
+    const url = new URL(window.location.href);
+    url.searchParams.set("step", step);
+    window.history.pushState({}, "", url);
+  };
 
   const handleIsBusiness = (value: boolean) => {
     console.log("is business?: ", formData);
@@ -39,21 +54,22 @@ export const HandleCreatingProfileForm: React.FC = () => {
     }));
 
     if (value === true) {
-      setFormSteps((prev) => ({
-        ...prev,
-        currentForm: "business",
-        activeStep: "businessGeneralInfo",
-      }));
+      navigateToStep("businessGeneralInfo");
+    } else {
+      navigateToStep("personGeneralInfo");
     }
   };
+
   return (
     <>
-      {formSteps.activeStep === "choosing" && (
+      {activeStep !== "choosing" && (
+        <button onClick={() => window.history.back()}>Volver</button>
+      )}
+      {activeStep === "choosing" && (
         <PersonOrBusiness handleIsBusiness={handleIsBusiness} />
       )}
-      {formSteps.activeStep === "businessGeneralInfo" && (
-        <BusinessFormGeneralInfo />
-      )}
+      {activeStep == "businessGeneralInfo" && <BusinessFormGeneralInfo />}
+      {activeStep == "personGeneralInfo" && <div>Formulario de Persona</div>}
     </>
   );
 };
