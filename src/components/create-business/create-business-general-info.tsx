@@ -10,7 +10,14 @@ import {
 	CardHeader,
 	CardTitle,
 } from "../ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form"
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "../ui/form"
 import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
 import type {
@@ -51,7 +58,7 @@ export const CreateBusinessGeneralInfo: React.FC<Props> = ({
 		navigateToStep("branch-info")
 	}
 	return (
-		<Card className="w-full max-w-2xl">
+		<>
 			<CardHeader>
 				<CardTitle>Información básica</CardTitle>
 				<CardDescription>Cuéntanos sobre tu negocio</CardDescription>
@@ -67,7 +74,7 @@ export const CreateBusinessGeneralInfo: React.FC<Props> = ({
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Nombre del Negocio</FormLabel>
+									<FormLabel>Nombre del Negocio *</FormLabel>
 									<FormControl>
 										<Input
 											type="text"
@@ -75,6 +82,7 @@ export const CreateBusinessGeneralInfo: React.FC<Props> = ({
 											placeholder="Ej: Veterinaria San Francisco"
 										/>
 									</FormControl>
+									<FormMessage />
 								</FormItem>
 							)}
 						/>
@@ -84,13 +92,15 @@ export const CreateBusinessGeneralInfo: React.FC<Props> = ({
 							name="description"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Descripción breve</FormLabel>
+									<FormLabel>Descripción breve *</FormLabel>
 									<FormControl>
 										<Textarea
 											{...field}
 											placeholder="Describe tu negocio en pocas palabras. ¿Qué servicios ofreces? ¿Qué te hace especial?"
+											maxLength={200}
 										/>
 									</FormControl>
+									<FormMessage />
 								</FormItem>
 							)}
 						/>
@@ -98,6 +108,6 @@ export const CreateBusinessGeneralInfo: React.FC<Props> = ({
 					</form>
 				</Form>
 			</CardContent>
-		</Card>
+		</>
 	)
 }

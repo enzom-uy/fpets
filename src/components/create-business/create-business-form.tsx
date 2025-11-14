@@ -1,19 +1,37 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Form } from "../ui/form"
 import { CreateBusinessGeneralInfo } from "./create-business-general-info"
+import { CreateBusinessBranchInfo } from "./create-business-branch-info"
+import { Card } from "../ui/card"
 
-export type CreateBusinessSteps = "general-info" | "branch-info"
+export type CreateBusinessSteps =
+	| "general-info"
+	| "branch-info"
+	| "branch-services"
 const STORAGE_KEY = "create-business-form"
 const NAVIGATION_FLAG_KEY = "create-business-navigation-active"
 
 export interface CreateBusinessFormData {
 	name: string
 	description: string
+	branchName: string
+	branchDescription: string
+	city: string
+	address: string
+}
+
+const emptyFormData: CreateBusinessFormData = {
+	name: "",
+	description: "",
+	branchName: "",
+	branchDescription: "",
+	city: "",
+	address: "",
 }
 
 export const CreateBusinessForm = () => {
+	// TODO: think if i can refactor this to be more reusable (already have something similar in "handle-creating-profile-form")
 	const getStepFromURL = (): CreateBusinessSteps => {
 		if (typeof window === "undefined") return "general-info"
 
@@ -29,17 +47,17 @@ export const CreateBusinessForm = () => {
 		return (params.get("step") as CreateBusinessSteps) || "general-info"
 	}
 	const getStoredFormData = (): CreateBusinessFormData => {
-		if (typeof window === "undefined") return { name: "", description: "" }
+		if (typeof window === "undefined") return emptyFormData
 
 		const isNavigationActive = sessionStorage.getItem(NAVIGATION_FLAG_KEY)
 
 		if (!isNavigationActive) {
 			sessionStorage.removeItem(STORAGE_KEY)
-			return { name: "", description: "" }
+			return emptyFormData
 		}
 
 		const stored = sessionStorage.getItem(STORAGE_KEY)
-		return stored ? JSON.parse(stored) : { name: "", description: "" }
+		return stored ? JSON.parse(stored) : emptyFormData
 	}
 	const [formData, setFormData] =
 		useState<CreateBusinessFormData>(getStoredFormData)
@@ -90,13 +108,22 @@ export const CreateBusinessForm = () => {
 			{activeStep !== "general-info" && (
 				<button onClick={() => window.history.back()}>Volver</button>
 			)}
-			{activeStep === "general-info" && (
-				<CreateBusinessGeneralInfo
-					navigateToStep={navigateToStep}
-					updateFormData={updateFormData}
-					formData={formData}
-				/>
-			)}
+			<Card className="w-full max-w-2xl">
+				{activeStep === "general-info" && (
+					<CreateBusinessGeneralInfo
+						navigateToStep={navigateToStep}
+						updateFormData={updateFormData}
+						formData={formData}
+					/>
+				)}
+				{activeStep === "branch-info" && (
+					<CreateBusinessBranchInfo
+						navigateToStep={navigateToStep}
+						updateFormData={updateFormData}
+						formData={formData}
+					/>
+				)}
+			</Card>
 		</>
 	)
 }
