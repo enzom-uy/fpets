@@ -136,50 +136,55 @@ export const CreateBusinessBranchInfo: React.FC<Props> = ({
 								</FormItem>
 							)}
 						/>
-						<FormField
-							control={form.control}
-							name="city"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Departamento *</FormLabel>
-									<Select
-										onValueChange={field.onChange}
-										{...field}
-									>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder="Departamento" />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											{CITIES.map((c) => (
-												<SelectItem key={c} value={c}>
-													{c}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="address"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Dirección *</FormLabel>
-									<FormControl>
-										<Input
-											type="text"
+						<div className="flex gap-4 flex-wrap">
+							<FormField
+								control={form.control}
+								name="city"
+								render={({ field }) => (
+									<FormItem className="flex-shrink-0">
+										<FormLabel>Departamento *</FormLabel>
+										<Select
+											onValueChange={field.onChange}
 											{...field}
-											placeholder="Nombre de la calle, 123, esq. Nombre y Nombre"
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+										>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Departamento" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												{CITIES.map((c) => (
+													<SelectItem
+														key={c}
+														value={c}
+													>
+														{c}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="address"
+								render={({ field }) => (
+									<FormItem className="flex-1 min-w-[200px]">
+										<FormLabel>Dirección *</FormLabel>
+										<FormControl>
+											<Input
+												type="text"
+												{...field}
+												placeholder="Nombre de la calle, 123, esq. Nombre y Nombre"
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
 						<Button type="submit">Continuar</Button>
 					</form>
 				</Form>
