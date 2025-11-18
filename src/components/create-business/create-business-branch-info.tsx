@@ -141,7 +141,7 @@ export const CreateBusinessBranchInfo: React.FC<Props> = ({
 								control={form.control}
 								name="city"
 								render={({ field }) => (
-									<FormItem className="flex-shrink-0">
+									<FormItem className="shrink-0">
 										<FormLabel>Departamento *</FormLabel>
 										<Select
 											onValueChange={field.onChange}

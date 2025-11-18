@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { CreateBusinessGeneralInfo } from "./create-business-general-info"
 import { CreateBusinessBranchInfo } from "./create-business-branch-info"
 import { Card } from "../ui/card"
+import { CreateBusinessBranchServices } from "./create-business-branch-services"
 
 export type CreateBusinessSteps =
 	| "general-info"
@@ -19,6 +20,7 @@ export interface CreateBusinessFormData {
 	branchDescription: string
 	city: string
 	address: string
+	services: string[]
 }
 
 const emptyFormData: CreateBusinessFormData = {
@@ -28,6 +30,7 @@ const emptyFormData: CreateBusinessFormData = {
 	branchDescription: "",
 	city: "",
 	address: "",
+	services: [],
 }
 
 export const CreateBusinessForm = () => {
@@ -118,6 +121,13 @@ export const CreateBusinessForm = () => {
 				)}
 				{activeStep === "branch-info" && (
 					<CreateBusinessBranchInfo
+						navigateToStep={navigateToStep}
+						updateFormData={updateFormData}
+						formData={formData}
+					/>
+				)}
+				{activeStep === "branch-services" && (
+					<CreateBusinessBranchServices
 						navigateToStep={navigateToStep}
 						updateFormData={updateFormData}
 						formData={formData}
