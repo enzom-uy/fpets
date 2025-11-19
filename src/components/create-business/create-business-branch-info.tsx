@@ -24,28 +24,7 @@ import {
 	SelectValue,
 } from "../ui/select"
 import { Button } from "../ui/button"
-
-const CITIES = [
-	"Artigas",
-	"Canelones",
-	"Colonia",
-	"Durazno",
-	"Florida",
-	"Fray Bentos",
-	"Maldonado",
-	"Melo",
-	"Mercedes",
-	"Minas",
-	"Montevideo",
-	"Paysandú",
-	"Rivera",
-	"Rocha",
-	"Salto",
-	"San José",
-	"Tacuarembó",
-	"Treinta y Tres",
-	"Trinidad",
-]
+import { CITIES } from "@/lib/constants"
 
 interface Props {
 	navigateToStep: (step: CreateBusinessSteps) => void

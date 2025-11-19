@@ -1,6 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro"
+import { GoogleSignInButton } from "../components/ui/google-sign-in-button"
 ---
 
 <Layout>
+	<div class="container mx-auto p-8 max-w-md">
+		<GoogleSignInButton client:load />
+	</div>
 </Layout>
