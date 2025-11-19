@@ -83,7 +83,6 @@ export const CreateBusinessForm = () => {
 
 	useEffect(() => {
 		sessionStorage.setItem(STORAGE_KEY, JSON.stringify(formData))
-		console.log(formData)
 	}, [formData])
 	useEffect(() => {
 		const handlePopState = () => {

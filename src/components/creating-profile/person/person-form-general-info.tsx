@@ -39,9 +39,7 @@ export const PersonFormGeneralInfo: React.FC = () => {
 		},
 	})
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values)
-	}
+	function onSubmit(values: z.infer<typeof formSchema>) {}
 	return (
 		<Card className="w-full max-w-2xl">
 			<CardHeader>

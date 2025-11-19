@@ -74,6 +74,7 @@ export const CreateBusinessBranchServices: React.FC<Props> = ({
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		updateFormData(values)
+		// TODO: send request to backend to create in db
 		console.log("FormData: ", formData)
 	}
 

@@ -63,7 +63,6 @@ const formSchema = z.object({
 	address: z.string(),
 })
 
-// TODO: this
 export const CreateBusinessBranchInfo: React.FC<Props> = ({
 	navigateToStep,
 	updateFormData,

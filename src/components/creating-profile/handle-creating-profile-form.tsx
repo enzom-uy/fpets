@@ -48,7 +48,6 @@ export const HandleCreatingProfileForm: React.FC = () => {
 	}
 
 	const handleIsBusiness = (value: boolean) => {
-		console.log("is business?: ", formData)
 		setFormData((prev) => ({
 			...prev,
 			isBusiness: value,
