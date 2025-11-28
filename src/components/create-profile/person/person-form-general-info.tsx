@@ -58,9 +58,36 @@ export const PersonFormGeneralInfo: React.FC<Props> = ({ userData }) => {
 		},
 	})
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values)
-		// TODO: Aquí se procesará el formulario
+	async function onSubmit(values: z.infer<typeof formSchema>) {
+		try {
+			const response = await fetch(
+				"http://localhost:3000/api/user/create",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					credentials: "include",
+					body: JSON.stringify({
+						name: values.name,
+						email: values.email,
+						city: values.city,
+						address: values.address ? values.address : null,
+					}),
+				},
+			)
+			console.log("Response: ", response)
+
+			if (!response.ok) {
+				throw new Error("Error when trying to create user profile.")
+			}
+
+			const data = await response.json()
+			console.log("Created profile: ", data)
+		} catch (error) {
+			// TODO: improve user feedback when error occurs
+			console.error("Error: ", error)
+		}
 	}
 
 	return (

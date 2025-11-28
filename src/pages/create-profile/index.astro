@@ -9,7 +9,9 @@ interface TokenPayload {
 	sub: string
 	email: string
 	username: string
-	isTemorary: boolean
+	userAgent: string
+	ip: string | "unknown"
+	isTemporary: boolean
 	iat: number
 	exp: number
 }
@@ -28,7 +30,9 @@ if (token) {
 		}
 	} catch (error) {
 		console.error("Error verifying token: ", error)
+		Astro.cookies.delete("tempToken", { path: "/" })
 		error = true
+		return Astro.redirect("/")
 	}
 } else {
 	return Astro.redirect("/")
