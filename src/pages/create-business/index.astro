@@ -1,6 +1,35 @@
 ---
+export const prerender = false
+
 import Layout from "@/layouts/Layout.astro"
 import { CreateBusinessForm } from "@/components/create-business/create-business-form"
+import { decodeJwt } from "jose"
+const accessToken = Astro.cookies.get("access_token")?.value
+const refreshToken = Astro.cookies.get("refresh_token")?.value
+
+if (!accessToken && !refreshToken) {
+	return Astro.redirect("/")
+}
+
+let userId = null
+
+try {
+	const tokenToDecode = accessToken || refreshToken
+
+	if (tokenToDecode) {
+		const payload = decodeJwt(tokenToDecode) as {
+			userId: string
+			sessionId: string
+			iat: number
+			exp: number
+		}
+		userId = payload.userId
+		console.log(userId)
+	}
+} catch (err) {
+	console.error("Error trying to decode token: ", err)
+	return Astro.redirect("/")
+}
 ---
 
 <Layout>
@@ -12,7 +41,7 @@ import { CreateBusinessForm } from "@/components/create-business/create-business
 				<h1 class="text-xl pb-2">Registra tu negocio</h1>
 			</div>
 
-			<CreateBusinessForm client:load />
+			<CreateBusinessForm userId={userId as string} client:load />
 		</div>
 	</div>
 </Layout>

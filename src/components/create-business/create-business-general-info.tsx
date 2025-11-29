@@ -29,8 +29,10 @@ import { Button } from "../ui/button"
 const formSchema = z.object({
 	name: z
 		.string()
-		.min(2, { error: "El nombre debe tener al menos 2 caracteres." }),
-	description: z.string().optional(),
+		.min(4, { error: "El nombre debe tener al menos 4 caracteres." }),
+	description: z.string().min(10, {
+		error: "La descripción debe tener al menos 10 caracteres.",
+	}),
 })
 
 interface Props {

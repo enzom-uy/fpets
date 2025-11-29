@@ -33,7 +33,11 @@ const emptyFormData: CreateBusinessFormData = {
 	services: [],
 }
 
-export const CreateBusinessForm = () => {
+interface Props {
+	userId: string
+}
+
+export const CreateBusinessForm: React.FC<Props> = ({ userId }) => {
 	// TODO: think if i can refactor this to be more reusable (already have something similar in "handle-creating-profile-form")
 	const getStepFromURL = (): CreateBusinessSteps => {
 		if (typeof window === "undefined") return "general-info"
